@@ -5,3 +5,5 @@
 *.log
 ./venv
 ./env
+celerybeat-schedule
+celerybeat.pid
