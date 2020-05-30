@@ -1,10 +1,12 @@
-import requests
-from celery import shared_task
 from bs4 import BeautifulSoup
-import requests as req
+
+from celery import shared_task
 
 from rate import model_choices as mch
 from rate.utils import to_decimal
+
+import requests
+import requests as req
 
 
 @shared_task
@@ -60,7 +62,6 @@ def parse_privatbank():
             )
 
 
-
 @shared_task
 def parse_monobank():
     from rate.models import Rate
@@ -80,7 +81,7 @@ def parse_monobank():
 
         currency_type = currency_type_mapper[item['currencyCodeA']]
 
-        #buy
+        # buy
         amount = to_decimal(item['rateBuy'])
         last = Rate.objects.filter(
             source=mch.SOURCE_MONOBANK,
@@ -96,9 +97,7 @@ def parse_monobank():
                 type=mch.RATE_TYPE_BUY,
             )
 
-
         amount = to_decimal(item['rateSell'])
-
         last = Rate.objects.filter(
             source=mch.SOURCE_MONOBANK,
             currency_type=currency_type,
@@ -112,7 +111,6 @@ def parse_monobank():
                 currency_type=currency_type,
                 type=mch.RATE_TYPE_SALE,
             )
-
 
 
 @shared_task
@@ -165,6 +163,7 @@ def parse_vkurse():
                 type=mch.RATE_TYPE_SALE,
             )
 
+
 @shared_task
 def parse_alfabnk():
     from rate.models import Rate
@@ -178,7 +177,7 @@ def parse_alfabnk():
         name = result.text
         rate_list.append(name)
 
-    #USD_Buy
+    # USD_Buy
     amount = rate_list[0]
     last = Rate.objects.filter(
         source=mch.SOURCE_ALFABANK,
@@ -194,7 +193,7 @@ def parse_alfabnk():
             type=2,
         )
 
-    #USD_sale
+    # USD_sale
     amount = rate_list[1]
     last = Rate.objects.filter(
         source=mch.SOURCE_ALFABANK,
@@ -210,7 +209,7 @@ def parse_alfabnk():
             type=1,
         )
 
-    #EUR_Buy
+    # EUR_Buy
     amount = rate_list[2]
     last = Rate.objects.filter(
         source=mch.SOURCE_ALFABANK,
@@ -226,7 +225,7 @@ def parse_alfabnk():
             type=2,
         )
 
-    #EUR_sale
+    # EUR_sale
     amount = rate_list[1]
     last = Rate.objects.filter(
         source=mch.SOURCE_ALFABANK,
@@ -242,6 +241,7 @@ def parse_alfabnk():
             type=1,
         )
 
+
 @shared_task
 def parse_otpbank():
     from rate.models import Rate
@@ -255,7 +255,7 @@ def parse_otpbank():
         rate = result.text
         rate_list.append(rate)
 
-  #USD_Buy
+    # USD_Buy
     amount = to_decimal(rate_list[0])
     last = Rate.objects.filter(
         source=mch.SOURCE_OTP,
@@ -271,7 +271,7 @@ def parse_otpbank():
             type=2,
         )
 
-    #USD_sale
+    # USD_sale
     amount = to_decimal(rate_list[1])
     last = Rate.objects.filter(
         source=mch.SOURCE_OTP,
@@ -287,7 +287,7 @@ def parse_otpbank():
             type=1,
         )
 
-    #EUR_Buy
+    # EUR_Buy
     amount = to_decimal(rate_list[3])
     last = Rate.objects.filter(
         source=mch.SOURCE_OTP,
@@ -303,7 +303,7 @@ def parse_otpbank():
             type=2,
         )
 
-    #EUR_sale
+    # EUR_sale
     amount = to_decimal(rate_list[4])
     last = Rate.objects.filter(
         source=mch.SOURCE_OTP,
@@ -319,6 +319,7 @@ def parse_otpbank():
             type=1,
         )
 
+
 @shared_task
 def parse_ukrsibbank():
     from rate.models import Rate
@@ -332,7 +333,7 @@ def parse_ukrsibbank():
         rate = result.text
         rate_list.append(rate)
 
-    #USD_Buy
+    # USD_Buy
     amount = rate_list[2]
     last = Rate.objects.filter(
         source=mch.SOURCE_UKRSIBBANK,
@@ -348,7 +349,7 @@ def parse_ukrsibbank():
             type=2,
         )
 
-    #USD_sale
+    # USD_sale
     amount = rate_list[3]
     last = Rate.objects.filter(
         source=mch.SOURCE_UKRSIBBANK,
@@ -364,7 +365,7 @@ def parse_ukrsibbank():
             type=1,
         )
 
-    #EUR_Buy
+    # EUR_Buy
     amount = rate_list[4]
     last = Rate.objects.filter(
         source=mch.SOURCE_UKRSIBBANK,
@@ -380,7 +381,7 @@ def parse_ukrsibbank():
             type=2,
         )
 
-    #EUR_sale
+    # EUR_sale
     amount = rate_list[5]
     last = Rate.objects.filter(
         source=mch.SOURCE_UKRSIBBANK,
@@ -399,9 +400,9 @@ def parse_ukrsibbank():
 
 @shared_task
 def parse():
-    #parse_monobank.delay()
-    #parse_privatbank.delay()
+    parse_monobank.delay()
+    parse_privatbank.delay()
     parse_vkurse.delay()
-    #parse_alfabnk.delay()
-    #parse_otpbank.delay()
-    #parse_ukrsibbank.delay()
+    parse_alfabnk.delay()
+    parse_otpbank.delay()
+    parse_ukrsibbank.delay()

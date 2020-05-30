@@ -1,3 +1,5 @@
-from django.test import TestCase
+from django.test import TestCase # noqa
 
-# Create your tests here.
+
+def tests():
+    pass

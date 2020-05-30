@@ -5,7 +5,6 @@ from celery.schedules import crontab
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
-
 SECRET_KEY = 'kya2mtnk!-xb)#@w51nr(3zl2eco!%k5tw7xvxj09e228s2r^+'
 
 DEBUG = True
@@ -60,15 +59,12 @@ TEMPLATES = [
 WSGI_APPLICATION = 'settings.wsgi.application'
 
 
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
-
-
 
 
 AUTH_PASSWORD_VALIDATORS = [
@@ -87,7 +83,6 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
-
 LANGUAGE_CODE = 'en-us'
 
 TIME_ZONE = 'UTC'
@@ -99,7 +94,6 @@ USE_L10N = True
 USE_TZ = True
 
 
-
 STATIC_URL = '/static/'
 
 AUTH_USER_MODEL = 'account.User'
@@ -109,6 +103,6 @@ CELERY_BROKER_URL = 'amqp://localhost'
 CELERY_BEAT_SCHEDULE = {
     'parse': {
         'task': 'rate.tasks.parse',
-        'schedule': crontab(minute='*/5'),
+        'schedule': crontab(minute='*/15'),
     },
 }
