@@ -12,4 +12,3 @@ urlpatterns = [
     path('rate/', include('rate.urls_rate')),
     path('account/',  include('account.urls')),
 ]
-
