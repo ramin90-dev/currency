@@ -11,5 +11,3 @@ def rate_all(request):
                            'count': count
                            }
                   )
-
-
