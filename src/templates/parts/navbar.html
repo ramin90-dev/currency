@@ -13,7 +13,9 @@
             <li class="nav-item {% if request.path == '/rate/list/' %}active{% endif %}">
                 <a class="nav-link" href="{% url 'rate:list' %}">Rates</a>
             </li>
-
+            <li class="nav-item {% if request.path == '/rate/latest-rate/' %}active{% endif %}">
+                <a class="nav-link" href="{% url 'rate:list' %}">Rate-laters</a>
+            </li>
             {% if request.user.is_authenticated %}
                 <li class="nav-item">
                     <a class="nav-link" href="#">My Profile</a>
@@ -31,4 +33,16 @@
             {% endif %}
         </ul>
     </div>
+
 </nav>
+
+
+<div class="dropdown">
+  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    Download rates
+  </button>
+  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+    <a class="dropdown-item" href="{% url 'rate:download-csv' %}" class="dropdown">Download rates - csv</a>
+    <a class="dropdown-item" href="{% url 'rate:download-xlsx' %}">Download rates - xlsx</a>
+  </div>
+</div>
