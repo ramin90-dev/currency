@@ -1,13 +1,15 @@
 from datetime import datetime, timedelta
-from mock import patch
 from time import sleep
+
+from django.core.management.base import BaseCommand
 from django.utils import timezone
 
-import requests
-from django.core.management.base import BaseCommand
+from mock import patch
 
-from rate.models import Rate
 from rate import model_choices as mch
+from rate.models import Rate
+
+import requests
 
 
 def date_range(start, end):
@@ -42,7 +44,6 @@ class Command(BaseCommand):
                   f'?json&date={date.strftime(date_format)}'
             response = requests.get(url)
             if response.status_code != 200:
-                print(response.content)
                 break
 
             rj = response.json()

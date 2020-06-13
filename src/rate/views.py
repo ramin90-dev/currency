@@ -1,12 +1,12 @@
 import csv
-
 from datetime import datetime
-from openpyxl import Workbook
 
 from django.http import HttpResponse
-from django.views.generic import ListView, View, TemplateView
+from django.views.generic import ListView, TemplateView, View
 
+from openpyxl import Workbook
 
+from rate import model_choices as mch
 from rate.models import Rate
 from rate.utils import display
 
@@ -42,13 +42,10 @@ class RateDownloadCSV(View):
 
         return response
 
-
     def get_response(self):
         response = HttpResponse(content_type='text/csv')
         response['Content-Disposition'] = 'attachment; filename="rate.csv"'
         return response
-
-
 
 
 class RateDownloadXLSX(View):
@@ -60,6 +57,7 @@ class RateDownloadXLSX(View):
         'type',
     )
     queryset = Rate.objects.all().iterator()
+
     def get(self, request):
 
         response = HttpResponse(
@@ -97,6 +95,7 @@ class RateDownloadXLSX(View):
         workbook.save(response)
 
         return response
+
 
 class LatestRatesView(TemplateView):
     template_name = 'latest-rates.html'
