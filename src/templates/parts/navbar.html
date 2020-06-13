@@ -14,7 +14,7 @@
                 <a class="nav-link" href="{% url 'rate:list' %}">Rates</a>
             </li>
             <li class="nav-item {% if request.path == '/rate/latest-rate/' %}active{% endif %}">
-                <a class="nav-link" href="{% url 'rate:list' %}">Rate-laters</a>
+                <a class="nav-link" href="{% url 'rate:latest-rate' %}">Rate-laters</a>
             </li>
             {% if request.user.is_authenticated %}
                 <li class="nav-item">

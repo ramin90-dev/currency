@@ -3,20 +3,8 @@
 {% block title %}Rates{% endblock title %}
 
 {% block content %}
-    <a href="{% url 'rate:download-csv' %}" class="dropdown">Download rates - csv</a>
+    <a href="{% url 'rate:download-csv' %}">Download rates - csv</a>
     <a href="{% url 'rate:download-xlsx' %}">Download rates - xlsx</a>
-
-    <div class="dropdown">
-      <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        Dropdown button
-      </button>
-        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-            <a class="dropdown-item" href="#">Action</a>
-            <a class="dropdown-item" href="#">Another action</a>
-            <a class="dropdown-item" href="#">Something else here</a>
-        </div>
-    </div>
-
     <table class="table table-striped table-dark" >
       <thead>
         <tr bgcolor="#008000" >
@@ -33,17 +21,17 @@
     <th ></th>
 
       <tbody>
-    {% for rate in object_list %}
-    <tr>
-      <th scope="row">{{ forloop.counter }}</th>
-      <td>{{ rate.id }}</td>
-      <td>{{  rate.created }}</td>
-      <td>{{  rate.rate }}</td>
-      <td>{{ rate.get_source_display }}</td>
-      <td>{{ rate.get_currency_type_display }}</td>
-      <td>{{ rate.get_rate_type_display }}</td>
-    </tr>
-  {% endfor %}
+       {% for rate in object_list %}
+      <tr >
+          <th scope="row">{{ forloop.counter }}</th>
+            <td>{{ rate.id }}</td>
+            <td>{{ rate.created }}</td>
+            <td>{{ rate.amount }}</td>
+            <td>{{ rate.get_source_display }}</td>
+            <td>{{ rate.get_currency_type_display }}</td>
+            <td>{{ rate.get_type_display }}</td>
+        </tr>
+        {% endfor %}
       </tbody>
     </table>
 {% endblock content %}

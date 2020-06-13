@@ -3,6 +3,7 @@ from django.contrib import admin
 from django.urls import include, path
 from django.views.generic import TemplateView
 
+from settings import views
 from rate import views as t_views # noqa
 
 
@@ -21,3 +22,6 @@ if settings.DEBUG:
     urlpatterns = [
         path('__debug__/', include(debug_toolbar.urls)),
     ] + urlpatterns
+
+handler404 = views.handler404
+handler500 = views.handler500
