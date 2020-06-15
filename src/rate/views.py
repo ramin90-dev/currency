@@ -1,13 +1,16 @@
 import csv
 from datetime import datetime
 
+from django.contrib.auth.mixins import UserPassesTestMixin
 from django.http import HttpResponse
-from django.views.generic import ListView, TemplateView, View
+from django.urls import reverse_lazy
+from django.views.generic import DeleteView, ListView, TemplateView, UpdateView, View
+
 
 from openpyxl import Workbook
 
-from rate import model_choices as mch
 from rate.models import Rate
+from rate.selectors import get_latest_rates
 from rate.utils import display
 
 
@@ -102,20 +105,28 @@ class LatestRatesView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-
-        object_list = []
-
-        for source in mch.SOURCE_CHOICES:  # source
-            source = source[0]
-            for currency in mch.CURRENCY_TYPE_CHOICES:  # currency_type
-                currency = currency[0]
-                for rate_type in mch.RATE_TYPE_CHOICES:  # rate_type
-                    rate_type = rate_type[0]
-                    rate = Rate.objects.filter(source=source,
-                                               currency_type=currency,
-                                               rate_type=rate_type).last('created')
-                    if rate is not None:
-                        object_list.append(rate)
-
-        context['object_list'] = object_list
+        context['object_list'] = get_latest_rates()
         return context
+
+
+class UpdateRate(UserPassesTestMixin, UpdateView):
+    template_name = 'rate-update.html'
+    queryset = Rate.objects.all()
+    fields = ('amount', 'source', 'currency_type', 'type')
+    success_url = reverse_lazy('rate:list')
+
+    def test_func(self):
+        return self.request.user.is_authenticated and\
+            self.request.user.is_superuser
+
+
+class DeleteRate(UserPassesTestMixin, DeleteView):
+    queryset = Rate.objects.all()
+    success_url = reverse_lazy('rate:list')
+
+    def get(self, request, *args, **kwargs):
+        return super().delete(request, *args, **kwargs)
+
+    def test_func(self):
+        return self.request.user.is_authenticated and\
+            self.request.user.is_superuser

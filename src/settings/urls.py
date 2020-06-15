@@ -4,7 +4,6 @@ from django.urls import include, path
 from django.views.generic import TemplateView
 
 from settings import views
-from rate import views as t_views # noqa
 
 
 urlpatterns = [
