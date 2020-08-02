@@ -9,7 +9,7 @@ from django.views.generic import CreateView, UpdateView
 class ContactUs(CreateView):
     template_name = 'contact-us.html'
     model = Contact
-    fields = 'email_from', 'subject', 'message'
+    fields = 'email_from', 'title', 'message'
     success_url = reverse_lazy('index')
 
     def form_valid(self, form):
