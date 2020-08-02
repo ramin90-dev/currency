@@ -1,4 +1,6 @@
-from settings.settings import *
+from settings.settings import * #noqa
+
+import os
 
 SECRET_KEY = 'kya2mtnk!-xb)#@w51nr(3zl2eco!%k5tw7xvxj09e228s2r^+'
 

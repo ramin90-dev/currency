@@ -1,6 +1,7 @@
 import os
 
 from celery.schedules import crontab
+
 from django.urls import reverse_lazy
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
